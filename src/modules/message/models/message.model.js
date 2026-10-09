@@ -12,12 +12,17 @@ const messageSchema = new mongoose.Schema(
       trim: true
     },
     sender: {
-      type: mongoose.Schema.Types.ObjectId
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'User'
     
     },
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
       required: true
+    },
+    isDeleted:{
+      type:Boolean,
+      default:false
     }
   },
   {
