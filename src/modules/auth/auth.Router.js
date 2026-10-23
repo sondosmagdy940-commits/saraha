@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { logIn, register, resetPassword, sendotp, verfiyAccount } from "./controller/auth.controller.js";
+import  idempotency  from "../../common/idempotency/idempotency.js";
 const authRouter=Router();
 authRouter.post('/signup',register);
 authRouter.patch('/verifiy-account',verfiyAccount);
-authRouter.patch('/reset-password',resetPassword);
+authRouter.patch('/reset-password',idempotency(),resetPassword);
 authRouter.post('/login',logIn);
 authRouter.post('/send-otp',sendotp);
 export default authRouter;

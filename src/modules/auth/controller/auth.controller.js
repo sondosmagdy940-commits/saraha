@@ -1,4 +1,4 @@
-import { toMS } from "../../../common/utils/utils.js";
+import { toMS } from "../../../pkg/utils/time.js";
 import { validateBody } from "../../../common/validation/validation.js";
 import { loginDTO, registerDTO, resetPasswordDTO, sendDTO, verifiyAccountDTO } from "../DTO/auth.dto.js";
 import { login, ResetPassword, signup, verifiyAccount ,sendOtp} from "../service/auth.service.js";
@@ -66,7 +66,7 @@ export const resetPassword=async(req,res,next)=>{
        const data = validateBody(resetPasswordDTO,req.body)
       const {email,code,newPassword} = data;
       const updated= await ResetPassword(email,code,newPassword);
-      res.sendStatus(204);
+      res.json({message:"password reset successfully"});
     }catch(error){
         next(error)
     }

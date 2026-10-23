@@ -5,12 +5,13 @@ import { createUser } from "../repository/auth.repository.js";
 import { createOtp, deleteOtp, findOtp } from "../repository/otp.repository.js";
 import { sendGmail } from "../../../common/email/nodemailer.js";
 import { findAndUpdate, findUserByEmail } from "../../users/repository/user.repository.js";
-import { toMS } from "../../../common/utils/utils.js";
+import { toMS } from "../../../pkg/utils/time.js";
 import { generateOtpCode } from "../../../common/utils/otp.js";
 import { userAlreadyExist, userIsVerified, userNotFound, userNotVerified } from "../../users/error.js";
 import {invaildOTP, otpExpired} from "../error.js"
 import { comparePassword, hashPassword } from "../utils/hash.js";
 import { generateToken } from "../utils/token.js";
+import { mailjetProvider } from "../../../common/email/mailjet.init.js";
 
 
 export const signup = async (userData) => {
@@ -26,7 +27,7 @@ export const signup = async (userData) => {
         email: userData.email,
         expiresAt: new Date(Date.now() + toMS(5,'minutes'))
     });
-    await sendGmail(userData.email,
+    await mailjetProvider.sendMail(userData.email,
         'verfication code ',
         `<h1>your verfication code is ${otp}</h1>`
 
@@ -76,7 +77,7 @@ export const sendOtp =async(email)=>{
     });
 
    // send email 
-   await sendGmail(email,
+   await mailjetProvider.sendMail(email,
         'new otp',
         `<h1>your code is ${code}</h1>`
 

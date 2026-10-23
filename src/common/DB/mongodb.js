@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
-const client = new MongoClient(process.env.DB_URL);
+import { env } from "../config/env.js";
+const client = new MongoClient(env.db.url);
 const db = client.db("saraha");
 export default db;

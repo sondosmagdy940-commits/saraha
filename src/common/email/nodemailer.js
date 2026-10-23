@@ -1,20 +1,18 @@
 import nodemailer from "nodemailer";
-import { config } from "dotenv";
-config();
-
+import { env } from "../config/env.js";
 
 
 const transporter= nodemailer.createTransport({
         service:'gmail',
         auth:{
-            user: "sondosmagdy940@gmail.com",
-            pass:"npkv szcj rfxg fdtm"
+            user:env.nodemailer.user,
+            pass:env.nodemailer.password
         }
     })
 export async function sendGmail(to, subject,html){
     
    await transporter.sendMail({
-        from:`"From your only beloved, Sondo2a"<sondosmagdy940@gmail.com>`,
+        from:`"From your only beloved, Sondo2a"<${env.nodemailer.user}>`,
         to:to,
         subject:subject,
         html:html
