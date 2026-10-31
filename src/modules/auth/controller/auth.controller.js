@@ -1,7 +1,7 @@
 import { toMS } from "../../../pkg/utils/time.js";
 import { validateBody } from "../../../common/validation/validation.js";
 import { loginDTO, registerDTO, resetPasswordDTO, sendDTO, verifiyAccountDTO } from "../DTO/auth.dto.js";
-import { login, ResetPassword, signup, verifiyAccount ,sendOtp} from "../service/auth.service.js";
+import { login, ResetPassword, signup, verifiyAccount ,sendOtp, enable2StepVerification, verifiyCodeTooLogin} from "../service/auth.service.js";
 
 
 export const register=async(req,res,next)=>{
@@ -33,12 +33,46 @@ export const verfiyAccount=async(req,res,next)=>{
         next(error)
     }
 }
+export const verifiCodeToLogin=async(req,res,next)=>{
+    try{
+       const data = validateBody(verifiyAccountDTO,req.body);
+      const {email, code} = data;
+      const token= await verifiyCodeTooLogin(email,code)
+       res.cookie('acccess-token',token,{
+        httpOnly:true,
+        maxAge:toMS(1,'hours')
+      })
+      res.status(201).json({
+        message:"loggedin successfully",
+        success:true
+      })
+    }catch(error){
+        next(error)
+    }
+}
+
+
+export const enableTwoStepVerification=async(req,res,next)=>{
+    try{
+      const {email, code} = req.body;
+       await enable2StepVerification(email,code)
+      res.status(201).json({
+        message:"enable two step verfication successfully",
+        success:true
+      })
+    }catch(error){
+        next(error)
+    }
+}
 export const logIn=async(req,res,next)=>{
     try{
        const data = validateBody(loginDTO,req.body)
       const {email, password} = data;
-      const token= await login(email,password);
-      res.cookie('acccess-token',token,{
+      const user= await login(email,password);
+      if(!user){
+        res.json({message:"check you inbox, we sent otp"})
+      }
+      res.cookie('acccess-token',user.token,{
         httpOnly:true,
         maxAge:toMS(1,'hours')
       })

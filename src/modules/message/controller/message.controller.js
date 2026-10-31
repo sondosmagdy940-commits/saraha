@@ -6,8 +6,7 @@ import { sendMessage } from "../service/message.service.js"
 export async function createMessage(req,res,next) {
     try{
         const data = validateBody(sendMessageDto,req.body)
-        const {content , receiver }=data;
-        const sender = req.user?.id
+        const {content , receiver, sender }=data;
         const createdMesage= await sendMessage(content,receiver,sender)
         res.status(201).json({
             message:"message created successfully",

@@ -6,22 +6,22 @@ const messageSchema = new mongoose.Schema(
     content: {
       type: String,
       required: true,
-      minlength: 10, 
+      minlength: 10,
       maxlength: 200,
       trim: true
     },
-    sender: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref:'User'
-    
-    },
     receiver: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    sender: {
       type: mongoose.Schema.Types.ObjectId,
       required: true
     },
-    isDeleted:{
-      type:Boolean,
-      default:false
+    isDeleted: {
+      type: Boolean,
+      default: false
     }
   },
   {
@@ -29,5 +29,5 @@ const messageSchema = new mongoose.Schema(
   }
 );
 
-const Message = mongoose.model('Message',messageSchema);
+const Message = mongoose.model('Message', messageSchema);
 export default Message;

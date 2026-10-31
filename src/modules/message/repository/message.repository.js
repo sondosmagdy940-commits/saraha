@@ -5,4 +5,7 @@ export async function createMessage(content, receiver, sender) {
         receiver:receiver,
         sender:sender
     })
-}
+};
+export const findMessageByIdRepo = async (messageId) => {
+  return await Message.findById(messageId);
+};

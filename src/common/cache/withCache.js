@@ -1,4 +1,4 @@
-import { cacheProvider } from "./init.js"
+import { cacheProvider} from "./init.js"
 
 export function withCache(ttl = 3600) {
     return async (req, res, next) => {

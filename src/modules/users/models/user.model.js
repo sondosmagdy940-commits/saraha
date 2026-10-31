@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "node:os";
 
 const userSchema = new mongoose.Schema(
   {
@@ -39,7 +40,15 @@ const userSchema = new mongoose.Schema(
       type:String,
       enum:['male','female'],
       default:'male'
+    },
+    profilePathPc:String,
+    picsCoverPath:[String],
+    cvPicPath:String,
+    twoStepVerification:{
+      type:Boolean,
+      default:false
     }
+    
   },
   {
     timestamps: true,

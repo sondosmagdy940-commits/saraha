@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { logIn, register, resetPassword, sendotp, verfiyAccount } from "./controller/auth.controller.js";
+import { enableTwoStepVerification, logIn, register, resetPassword, sendotp, verfiyAccount, verifiCodeToLogin } from "./controller/auth.controller.js";
 import  idempotency  from "../../common/idempotency/idempotency.js";
 const authRouter=Router();
 authRouter.post('/signup',register);
@@ -7,4 +7,6 @@ authRouter.patch('/verifiy-account',verfiyAccount);
 authRouter.patch('/reset-password',idempotency(),resetPassword);
 authRouter.post('/login',logIn);
 authRouter.post('/send-otp',sendotp);
+authRouter.patch('/enable-2-step-verification',enableTwoStepVerification);
+authRouter.post('/verifi-code-to-login',verifiCodeToLogin);
 export default authRouter;
